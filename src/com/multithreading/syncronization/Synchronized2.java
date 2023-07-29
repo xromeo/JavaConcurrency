@@ -1,15 +1,10 @@
-package com.multithreading;
+package com.multithreading.syncronization;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
-public class Lock3 {
+public class Synchronized2 {
 
-    private static Lock lock = new ReentrantLock();
-    private static Condition condition = lock.newCondition();
     public static void main(String[] args) throws InterruptedException {
         Queue<String> queue = new LinkedList<>();
 
@@ -39,21 +34,23 @@ public class Lock3 {
         }
 
         private void produceData() throws InterruptedException {
-            lock.lock();
+            synchronized (queue) {
                 if (queue.size() == 10) {
                     System.out.println("In producer, waiting...");
-                    condition.await();
+                    queue.wait();
                 }
 
                 Thread.sleep(1000);
 
                 System.out.println("Producing data with id " + queue.size());
                 queue.add("element_" + queue.size());
-               
+
+                // queue.notify();
+
                 if (queue.size() == 1) {
-                    condition.signal();
+                    queue.notify();
                 }
-            lock.unlock();
+            }
         }
 
     }
@@ -79,22 +76,24 @@ public class Lock3 {
         }
 
         private void consumeData() throws InterruptedException {
-            lock.lock();
+            synchronized (queue) {
                 if (queue.isEmpty()) {
                     System.out.println("Consumer is waiting ...");
-                    condition.await();
+                    queue.wait();
                 }
 
                 Thread.sleep(700);
 
                 String data = queue.remove();
-                System.out.println("Consumed data: " + data);                
+                System.out.println("Consumed data: " + data);
+             
+                //queue.notify();
 
                 if (queue.size() == 9) {
-                    condition.signal();
+                    queue.notify();
                 }
 
-            lock.unlock();
+            }
         }
 
     }

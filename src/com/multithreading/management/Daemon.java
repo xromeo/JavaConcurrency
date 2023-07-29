@@ -1,4 +1,4 @@
-package com.multithreading;
+package com.multithreading.management;
 
 
 public class Daemon {

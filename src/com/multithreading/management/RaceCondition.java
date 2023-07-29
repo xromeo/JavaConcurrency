@@ -1,15 +1,13 @@
-package com.multithreading;
+package com.multithreading.management;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //Multiples thread are using the same resource
 
-public class Synchronized1 {
+public class RaceCondition {
  
     private static int globalCounter = 0;
-    public static final Object obj = new Object();
-
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -36,7 +34,6 @@ public class Synchronized1 {
         System.out.println("Total = " + globalCounter);
     }
 
-    
     static class MyThread implements Runnable{
 
         public MyThread(String name) {
@@ -48,11 +45,9 @@ public class Synchronized1 {
             try {
                 Thread.sleep(99999);
             } catch (InterruptedException e) {
-                //System.out.println("Interrupted = " + Thread.currentThread().getName());
+                System.out.println("Interrupted = " + Thread.currentThread().getName());
             }
-            synchronized(obj){
-                globalCounter++;
-            }
+            globalCounter++;
         }
 
     }

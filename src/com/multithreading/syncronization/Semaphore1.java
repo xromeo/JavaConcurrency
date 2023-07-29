@@ -1,4 +1,4 @@
-package com.multithreading;
+package com.multithreading.syncronization;
 
 import java.util.concurrent.Semaphore;
 

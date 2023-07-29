@@ -1,4 +1,4 @@
-package com.multithreading;
+package com.multithreading.management;
 
 /**
  * Created by Omar.Rivera on 28/2/23.
